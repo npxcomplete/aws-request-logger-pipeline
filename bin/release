@@ -1,0 +1,6 @@
+#! /bin/bash
+
+set -eu -o pipefail
+
+npm run build
+npm run cdk synth -- -o dist
