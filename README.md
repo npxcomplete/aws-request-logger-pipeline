@@ -1,14 +1,29 @@
-# Welcome to your CDK TypeScript project!
+Getting started
+================
 
-This is a blank project for TypeScript development with CDK.
+Manually create the request-logger & pipeline stack in AWS CodeCommit.
+Then proceed to push the code and perform the initial manual deploy
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+```bash
+git clone github.com/npxcomplete/aws-request-logger-lambda ~/src/github.com/npxcomplete/aws-request-logger-lambda
+git clone github.com/npxcomplete/aws-request-logger-pipeline ~/src/github.com/npxcomplete/aws-request-logger-lambda
 
-## Useful commands
+cd ~/src/github.com/npxcomplete/aws-request-logger-lambda
+git remote add aws ssh://<your aws account details here>/request-logger
+git push aws main:main
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+cd ~/src/github.com/npxcomplete/aws-request-logger-pipeline
+git remote add aws ssh://<your aws account details here>/pipeline
+git push aws main:main
+
+export AWS_ACCESS_KEY_ID=.....
+export AWS_SECRET_ACCESS_KEY=......
+export AWS_DEFAULT_REGION=us-east-2
+
+cdk bootstrap
+# Manual code edit required before first deploy
+# comment the Fn.Import in the verify step.
+./bin/release && cdk deploy PipelineStack
+# On re-execution (with the Fn.Import present) the verify step should pass.
+```
+
